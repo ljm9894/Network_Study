@@ -14,7 +14,7 @@ public class CreateJsonExample{
         JSONObject root = new JSONObject();
 
         //속성 추가
-        root.put("id", "winder");
+        root.put("id", "winter");
         root.put("name", "한겨울");
         root.put("age",25);
         root.put("student", true);
@@ -37,9 +37,10 @@ public class CreateJsonExample{
         //콘솔창에 출력
         System.out.println(json);
 
-        /*Writer writer = new FileWriter("C:/Users/b0107/OneDrive/바탕 화면", Charset.forName("UTF-8"));
+        //파일경로
+        Writer writer = new FileWriter("C:\\Users\\b0107\\OneDrive\\memvr.json", Charset.forName("UTF-8"));
         writer.write(json);
         writer.flush();
-        writer.close();*/
+        writer.close();
     }
 }
