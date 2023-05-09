@@ -28,7 +28,7 @@ public class ParseJsonExample {
         System.out.println("age: "+root.getInt("age"));
         System.out.println("student: "+root.getBoolean("student"));
 
-        //객체 속성 정보 읽기
+        //객체 속성 정보 읽기.
         JSONObject tel = root.getJSONObject("tel");
         System.out.println("home: "+tel.getString("home"));
         System.out.println("mobile: "+tel.getString("mobile"));
