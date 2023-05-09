@@ -37,7 +37,7 @@ public class CreateJsonExample{
         //콘솔창에 출력
         System.out.println(json);
 
-        //파일경로.
+        //파일경로
         Writer writer = new FileWriter("C:\\Users\\b0107\\OneDrive\\memvr.json", Charset.forName("UTF-8"));
         writer.write(json);
         writer.flush();
