@@ -36,44 +36,41 @@ public class NewsServer {
         System.out.println("[서버] 종료됨");
     }
     private static void startServer(){
-        Thread thread= new Thread(){
-            @Override
-            public void run(){
-                try{
-                    //DatagramSocket 생성 및 Port 바인딩
-                    datagramSocket = new DatagramSocket(50003);
-                    System.out.println("[서버 시작됨]");
-                    while(true){
-                        //클라이언트가 구독하고 싶은 뉴스 주제 얻기
-                        DatagramPacket receivePacket = new DatagramPacket(new byte[1024], 1024);
-                        System.out.println("클라이언트의 희망 뉴스 종류를 얻기 위해 대기중");
-                        datagramSocket.receive(receivePacket);
-                        executorService.execute(()->{
-                            try{
-                                String newsKind = new String(receivePacket.getData(),0,receivePacket.getLength(),"UTF-8");
+        Thread thread= new Thread(() -> {
+            try{
+                //DatagramSocket 생성 및 Port 바인딩
+                datagramSocket = new DatagramSocket(50003);
+                System.out.println("[서버 시작됨]");
+                while(true){
+                    //클라이언트가 구독하고 싶은 뉴스 주제 얻기
+                    DatagramPacket receivePacket = new DatagramPacket(new byte[1024], 1024);
+                    System.out.println("클라이언트의 희망 뉴스 종류를 얻기 위해 대기중");
+                    datagramSocket.receive(receivePacket);
+                    executorService.execute(()->{
+                        try{
+                            String newsKind = new String(receivePacket.getData(),0,receivePacket.getLength(),"UTF-8");
 
-                                SocketAddress socketAddress = receivePacket.getSocketAddress();
+                            SocketAddress socketAddress = receivePacket.getSocketAddress();
 
-                                for(int i=0;i<=10;i++){
-                                    String data = newsKind + ":뉴스" +i;
-                                    byte[] bytes = data.getBytes("UTF-8");
-                                    DatagramPacket sendPacket = new DatagramPacket(bytes, 0,bytes.length,socketAddress);
-                                    datagramSocket.send(sendPacket);
-                                    Thread.sleep(1000);
-                                }
-                            }catch(Exception e){
-                                System.out.println("[서버] "+e.getMessage());
+                            for(int i=0;i<=10;i++){
+                                String data = newsKind + ":뉴스" +i;
+                                byte[] bytes = data.getBytes("UTF-8");
+                                DatagramPacket sendPacket = new DatagramPacket(bytes, 0,bytes.length,socketAddress);
+                                datagramSocket.send(sendPacket);
+                                Thread.sleep(1000);
                             }
+                        }catch(Exception e){
+                            System.out.println("[서버] "+e.getMessage());
+                        }
 
-                        });
+                    });
 
 
-                    }
-                }catch(Exception e){
-                    System.out.println("서버:"+ e.getMessage());
                 }
+            }catch(Exception e){
+                System.out.println("서버:"+ e.getMessage());
             }
-        };
+        });
 
         //작업스레드 시작
         thread.start();
